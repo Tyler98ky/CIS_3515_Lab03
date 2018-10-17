@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Actividad de color</string>
+    <string name="greeting_string">Elige un color</string>
+
+    <string-array name="string_array_name">
+        <item>Rojo</item>
+        <item>Azul</item>
+        <item>Magenta</item>
+        <item>Cian</item>
+        <item>Verde</item>
+        <item>Blanco</item>
+        <item>Amarillo</item>
+        <item>Gris</item>
+    </string-array>
+</resources>
