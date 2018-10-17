@@ -1,6 +1,7 @@
 package edu.temple.coloractivity;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,9 +27,22 @@ public class PaletteActivity extends AppCompatActivity implements AdapterView.On
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         if (!isFirstLaunch) {
-            Intent canvasIntent = new Intent(getApplicationContext(), CanvasActivity.class);
-            canvasIntent.putExtra(Utility.COLOR_INDEX_EXTRA, pos);
-            startActivity(canvasIntent);
+            CanvasFragment cf = new CanvasFragment();
+
+            Bundle args = new Bundle();
+            args.putInt(Utility.COLOR_INDEX_EXTRA, pos);
+            cf.setArguments(args);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.frame_layout, cf);
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
+
         } else {
             isFirstLaunch = false;
         }
