@@ -3,10 +3,12 @@ package edu.temple.coloractivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 
 /**
@@ -20,21 +22,31 @@ public class CanvasFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().findViewById(R.id.fragment_frame_layout).setBackgroundColor(Color.parseColor(Utility.COLORS[mIndex]));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_canvas, container, false);
-        mIndex = getArguments().getInt(Utility.COLOR_INDEX_EXTRA);
 
-        // Inflate the layout for this fragment
+        if (savedInstanceState != null) {
+            mIndex = savedInstanceState.getInt("position");
+        } else {
+            Bundle args = getArguments();
+            if (args != null) {
+                mIndex = args.getInt(Utility.COLOR_INDEX_EXTRA);
+            } else {
+                mIndex = 0;
+            }
+        }
+
+        FrameLayout frame = v.findViewById(R.id.canvas_layout);
+        frame.setBackgroundColor(Color.parseColor(Utility.COLORS[mIndex]));
+
         return v;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", mIndex);
+    }
 }
